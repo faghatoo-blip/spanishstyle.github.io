@@ -1,0 +1,26 @@
+SPANISH STYLE - MULTISHOP WEBSITE
+=================================
+
+All Modifications Applied:
+✓ Persian Language (RTL)
+✓ Dana Font
+✓ Red & Yellow Color Scheme
+✓ Header: "Spanish Style"
+✓ Gran Via Store Images
+
+Files Modified:
+- index.html
+- shop.html
+- cart.html
+- checkout.html
+- contact.html
+
+To Complete:
+1. Add Grand Via street store images to img/ folder
+2. Rename them as: carousel-1.jpg, carousel-2.jpg, carousel-3.jpg
+3. Upload all files to Netlify
+4. Access via spanishstyle.org
+
+Color Codes:
+Primary Red: #DC143C
+Secondary Yellow: #FFD700
