@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fa-IR" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>استیلو اسپانیول - فروشگاه اسپانیایی</title>
+    
+    <!-- Dana Font CDN -->
+    <link href="https://v2.fontapi.ir/css/dana:400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/rtl.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        * {
+            font-family: 'Dana', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            direction: rtl;
+            lang: fa-IR;
+        }
+        
+        body {
+            background-color: #fafaf5;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="/">استیلو اسپانیول</a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home">خانه</a></li>
+                    <li><a href="#products">محصولات</a></li>
+                    <li><a href="#about">درباره</a></li>
+                    <li><a href="#contact">تماس</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <a href="#cart" class="cart-icon" onclick="toggleCart()">
+                        🛒 <span class="cart-count" id="cart-count">0</span>
+                    </a>
+                    <a href="/admin" class="admin-link">ورود مدیریت</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>استیلو اسپانیول</h1>
+            <p>محصولات اسپانیایی اصل و سنتی</p>
+            <button class="btn btn-primary" onclick="scrollToProducts()">مرور محصولات</button>
+        </div>
+    </section>
+
+    <!-- Category Filter -->
+    <section class="filters" id="products">
+        <div class="container">
+            <h2>محصولات</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterProducts('all')">همه</button>
+                <button class="filter-btn" onclick="filterProducts('سرامیک')">سرامیک</button>
+                <button class="filter-btn" onclick="filterProducts('بافت')">بافت</button>
+                <button class="filter-btn" onclick="filterProducts('تزیینی')">تزیینی</button>
+                <button class="filter-btn" onclick="filterProducts('جواهرات')">جواهرات</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleCart()">&times;</span>
+            <h2>سبد خرید</h2>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be displayed here -->
+            </div>
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>جمع:</span>
+                    <span id="cart-total">0 €</span>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="goToCheckout()">رفتن به پرداخت</button>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="product-modal" id="productModal">
+        <div class="modal-content product-detail">
+            <span class="close" onclick="closeProductModal()">&times;</span>
+            <div class="product-detail-wrapper">
+                <div class="product-image">
+                    <img id="modalProductImage" src="" alt="">
+                </div>
+                <div class="product-info">
+                    <h2 id="modalProductName"></h2>
+                    <p id="modalProductDescription"></p>
+                    <div class="price-section">
+                        <span class="price" id="modalProductPrice"></span>
+                        <span class="stock" id="modalProductStock"></span>
+                    </div>
+                    <div class="quantity-selector">
+                        <label>تعداد:</label>
+                        <input type="number" id="quantityInput" min="1" value="1">
+                    </div>
+                    <button class="btn btn-primary" onclick="addToCartFromModal()">اضافه کردن به سبد</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Section -->
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="modal-content checkout-content">
+            <span class="close" onclick="closeCheckout()">&times;</span>
+            <h2>تکمیل سفارش</h2>
+            
+            <form id="checkoutForm" onsubmit="confirmOrder(event)">
+                <div class="form-section">
+                    <h3>اطلاعات شخصی</h3>
+                    <input type="text" id="customerName" placeholder="نام و نام خانوادگی" required>
+                    <input type="email" id="customerEmail" placeholder="ایمیل" required>
+                    <input type="tel" id="customerPhone" placeholder="تلفن" required>
+                    <textarea id="customerAddress" placeholder="آدرس تحویل" required></textarea>
+                </div>
+                
+                <div class="form-section">
+                    <h3>خلاصه سفارش</h3>
+                    <div class="order-summary" id="orderSummary">
+                        <!-- Order items summary -->
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>روش پرداخت</h3>
+                    <label>
+                        <input type="radio" name="payment" value="کارت اعتباری" checked> کارت اعتباری
+                    </label>
+                    <label>
+                        <input type="radio" name="payment" value="انتقال بانکی"> انتقال بانکی
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">تایید سفارش</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Confirmation -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-content confirmation-content">
+            <h2>✓ سفارش تایید شد</h2>
+            <div class="confirmation-details">
+                <p>شماره سفارش: <strong id="confirmationOrderId"></strong></p>
+                <p>تاریخ: <strong id="confirmationDate"></strong></p>
+                <p>مجموع: <strong id="confirmationTotal"></strong></p>
+            </div>
+            <button class="btn btn-primary" onclick="goHome()">بازگشت به صفحه اصلی</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 استیلو اسپانیول. تمام حقوق محفوظ است.</p>
+            <div class="footer-links">
+                <a href="#admin">ورود مدیریت</a>
+                <a href="#contact">تماس</a>
+                <a href="#about">درباره ما</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
