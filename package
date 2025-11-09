@@ -1,0 +1,94 @@
+{
+  "name": "estilo-espanol",
+  "version": "1.0.0",
+  "description": "A professional Persian e-commerce store for selling Spanish products with customer registration, dashboard, and admin panel",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "live-server"
+  },
+  "keywords": [
+    "ecommerce",
+    "estilo-espanol",
+    "spanish-products",
+    "persian",
+    "farsi",
+    "shopping",
+    "store"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YourUsername/estilo-espanol.git"
+  },
+  "homepage": "https://yourusername.github.io/estilo-espanol",
+  "bugs": {
+    "url": "https://github.com/YourUsername/estilo-espanol/issues"
+  },
+  "features": {
+    "customer": [
+      "Product browsing with category filter",
+      "User registration and authentication",
+      "Customer dashboard",
+      "Order history",
+      "Shopping cart management",
+      "Checkout process",
+      "Profile management"
+    ],
+    "admin": [
+      "Admin dashboard with analytics",
+      "Product management",
+      "Customer management",
+      "Order management",
+      "Sales reports",
+      "Revenue tracking"
+    ],
+    "technical": [
+      "Fully responsive design",
+      "RTL layout support (Persian)",
+      "No external dependencies",
+      "In-memory data storage",
+      "Professional UI/UX"
+    ]
+  },
+  "project_structure": {
+    "html": [
+      "index.html",
+      "customer-register.html",
+      "customer-dashboard.html",
+      "admin.html"
+    ],
+    "css": [
+      "css/variables.css",
+      "css/rtl.css",
+      "css/style.css",
+      "css/admin-style.css",
+      "css/register-style.css"
+    ],
+    "javascript": [
+      "js/data.js",
+      "js/utils.js",
+      "js/auth.js",
+      "js/app.js",
+      "js/admin.js",
+      "js/customer.js"
+    ],
+    "images": [
+      "images/logo.jpg",
+      "images/ceramic_plate.jpg",
+      "images/manton_madrid.jpg",
+      "images/azulejo_decorativo.jpg"
+    ]
+  },
+  "credentials": {
+    "admin": {
+      "email": "admin@estilo.com",
+      "password": "admin123"
+    },
+    "customer": {
+      "email": "customer@estilo.com",
+      "password": "customer123"
+    }
+  }
+}
