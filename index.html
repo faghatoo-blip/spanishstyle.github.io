@@ -1,203 +1,241 @@
+html
 <!DOCTYPE html>
-<html lang="fa-IR" dir="rtl">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>استایل اسپانیایی - فروشگاه محصولات اسپانیایی</title>
+    <title>استایل اسپانیایی - فروشگاه آنلاین</title>
     
-    <!-- Dana Font CDN -->
-    <link href="https://v2.fontapi.ir/css/dana:400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Styles -->
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/rtl.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/register-style.css">
     
-    <style>
-        * {
-            font-family: 'Dana', sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            direction: rtl;
-            lang: fa-IR;
-        }
-        
-        body {
-            background-color: #fafaf5;
-            color: #333333;
-        }
-    </style>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-wrapper">
-                <div class="logo">
-                    <a href="/">استایل اسپانیایی </a>
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="#home">خانه</a></li>
-                    <li><a href="#products">محصولات</a></li>
-                    <li><a href="#about">درباره</a></li>
-                    <li><a href="#contact">تماس</a></li>
-                </ul>
-                <div class="nav-icons">
-                    <a href="#cart" class="cart-icon" onclick="toggleCart()">
-                        🛒 <span class="cart-count" id="cart-count">0</span>
-                    </a>
-                    <a href="/admin" class="admin-link">ورود مدیریت</a>
-                </div>
+<body dir="rtl">
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="images/logo.jpg" alt="استایل اسپانیایی" class="logo">
+                <h1 class="store-name">استایل اسپانیایی</h1>
             </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1> استایل اسپانیایی</h1>
-            <p>محصولات برندهای اصیل اسپانیا</p>
-            <button class="btn btn-primary" onclick="scrollToProducts()">مرور محصولات</button>
-        </div>
-    </section>
-
-    <!-- Category Filter -->
-    <section class="filters" id="products">
-        <div class="container">
-            <h2>محصولات</h2>
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterProducts('all')">همه</button>
-                <button class="filter-btn" onclick="filterProducts('سرامیک')">سرامیک</button>
-                <button class="filter-btn" onclick="filterProducts('بافت')">بافت</button>
-                <button class="filter-btn" onclick="filterProducts('تزیینی')">تزیینی</button>
-                <button class="filter-btn" onclick="filterProducts('جواهرات')">جواهرات</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Grid -->
-    <section class="products-section">
-        <div class="container">
-            <div class="products-grid" id="products-grid">
-                <!-- Products will be dynamically inserted here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Shopping Cart Modal -->
-    <div class="cart-modal" id="cartModal">
-        <div class="modal-content">
-            <span class="close" onclick="toggleCart()">&times;</span>
-            <h2>سبد خرید</h2>
-            <div class="cart-items" id="cart-items">
-                <!-- Cart items will be displayed here -->
-            </div>
-            <div class="cart-summary">
-                <div class="summary-row">
-                    <span>جمع:</span>
-                    <span id="cart-total">0 €</span>
-                </div>
-            </div>
-            <button class="btn btn-primary" onclick="goToCheckout()">رفتن به پرداخت</button>
-        </div>
-    </div>
-
-    <!-- Product Detail Modal -->
-    <div class="product-modal" id="productModal">
-        <div class="modal-content product-detail">
-            <span class="close" onclick="closeProductModal()">&times;</span>
-            <div class="product-detail-wrapper">
-                <div class="product-image">
-                    <img id="modalProductImage" src="" alt="">
-                </div>
-                <div class="product-info">
-                    <h2 id="modalProductName"></h2>
-                    <p id="modalProductDescription"></p>
-                    <div class="price-section">
-                        <span class="price" id="modalProductPrice"></span>
-                        <span class="stock" id="modalProductStock"></span>
-                    </div>
-                    <div class="quantity-selector">
-                        <label>تعداد:</label>
-                        <input type="number" id="quantityInput" min="1" value="1">
-                    </div>
-                    <button class="btn btn-primary" onclick="addToCartFromModal()">اضافه کردن به سبد</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Checkout Section -->
-    <div class="checkout-modal" id="checkoutModal">
-        <div class="modal-content checkout-content">
-            <span class="close" onclick="closeCheckout()">&times;</span>
-            <h2>تکمیل سفارش</h2>
             
-            <form id="checkoutForm" onsubmit="confirmOrder(event)">
-                <div class="form-section">
-                    <h3>اطلاعات شخصی</h3>
-                    <input type="text" id="customerName" placeholder="نام و نام خانوادگی" required>
-                    <input type="email" id="customerEmail" placeholder="ایمیل" required>
-                    <input type="tel" id="customerPhone" placeholder="تلفن" required>
-                    <textarea id="customerAddress" placeholder="آدرس تحویل" required></textarea>
+            <nav class="navigation">
+                <a href="#" class="nav-link active" onclick="showHome()">خانه</a>
+                <a href="#" class="nav-link" onclick="showProducts()">محصولات</a>
+                <a href="#" class="nav-link" onclick="showAbout()">درباره</a>
+                <a href="#" class="nav-link" onclick="showContact()">تماس</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-box">
+                    <input type="text" placeholder="جستجو..." id="searchInput">
+                    <button onclick="performSearch()"><i class="fas fa-search"></i></button>
                 </div>
                 
-                <div class="form-section">
-                    <h3>خلاصه سفارش</h3>
-                    <div class="order-summary" id="orderSummary">
-                        <!-- Order items summary -->
-                    </div>
-                </div>
+                <button class="cart-btn" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
                 
-                <div class="form-section">
-                    <h3>روش پرداخت</h3>
-                    <label>
-                        <input type="radio" name="payment" value="کارت اعتباری" checked> کارت اعتباری
-                    </label>
-                    <label>
-                        <input type="radio" name="payment" value="انتقال بانکی"> انتقال بانکی
-                    </label>
+                <div class="auth-buttons">
+                    <button class="btn-login" id="loginBtn" onclick="showLoginModal()">ورود</button>
+                    <button class="btn-register" onclick="showRegisterModal()">ثبت‌نام</button>
+                    <button class="btn-logout" id="logoutBtn" style="display: none;" onclick="handleLogout()">خروج</button>
                 </div>
-                
-                <button type="submit" class="btn btn-primary">تایید سفارش</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="homeSection" class="section">
+            <div class="hero">
+                <div class="hero-content">
+                    <h2>به فروشگاه اسپانیایی خوش آمدید</h2>
+                    <p>محصولات اصیل اسپانیایی با کیفیت برتر</p>
+                    <button class="btn-primary" onclick="showProducts()">مرور محصولات</button>
+                </div>
+                <div class="hero-image">
+                    <img src="images/logo.jpg" alt="استیلو">
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="productsSection" class="section" style="display: none;">
+            <div class="products-header">
+                <h2>محصولات ما</h2>
+                <div class="category-filter">
+                    <button class="filter-btn active" onclick="filterByCategory('همه')">همه</button>
+                    <button class="filter-btn" onclick="filterByCategory('سرامیک')">سرامیک</button>
+                    <button class="filter-btn" onclick="filterByCategory('بافت')">بافت</button>
+                    <button class="filter-btn" onclick="filterByCategory('تزیینی')">تزیینی</button>
+                    <button class="filter-btn" onclick="filterByCategory('جواهرات')">جواهرات</button>
+                </div>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
+        </section>
+
+        <!-- About Section -->
+        <section id="aboutSection" class="section" style="display: none;">
+            <h2>درباره ما</h2>
+            <div class="about-content">
+                <p>استایل اسپانیایی یک فروشگاه آنلاین تخصصی در فروش محصولات اصیل اسپانیایی است.</p>
+                <p>ما تنها بهترین کیفیت را ارائه می‌دهیم و با فخر از تجربه ۱۵ سال در این حوزه برخوردار هستیم.</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contactSection" class="section" style="display: none;">
+            <h2>تماس با ما</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <p>+34 912 345 678</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>info@estilo-espanol.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>مادرید، اسپانیا</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Shopping Cart Sidebar -->
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>سبد خریدتان</h3>
+            <button class="close-btn" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>جمع:</span>
+                <span id="cartTotal">۰ €</span>
+            </div>
+            <button class="btn-primary btn-checkout" onclick="proceedToCheckout()">رفتن به پرداخت</button>
+        </div>
+    </aside>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
+            <h2>ورود</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>ایمیل:</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>رمز عبور:</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">ورود</button>
+            </form>
+            <p class="form-link">حساب ندارید؟ <a href="#" onclick="switchToRegister()">ثبت‌نام کنید</a></p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeRegisterModal()"><i class="fas fa-times"></i></button>
+            <h2>ثبت‌نام</h2>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>نام کامل:</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label>ایمیل:</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>تلفن:</label>
+                    <input type="tel" id="registerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>آدرس:</label>
+                    <textarea id="registerAddress" rows="2" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>رمز عبور:</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">ثبت‌نام</button>
+            </form>
+            <p class="form-link">قبلاً ثبت‌نام کردید؟ <a href="#" onclick="switchToLogin()">وارد شوید</a></p>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeCheckoutModal()"><i class="fas fa-times"></i></button>
+            <h2>تکمیل سفارش</h2>
+            <form onsubmit="completeOrder(event)">
+                <h3>اطلاعات شخصی</h3>
+                <div class="form-group">
+                    <label>نام:</label>
+                    <input type="text" id="checkoutName" required>
+                </div>
+                <div class="form-group">
+                    <label>آدرس:</label>
+                    <textarea id="checkoutAddress" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>تلفن:</label>
+                    <input type="tel" id="checkoutPhone" required>
+                </div>
+
+                <h3>روش پرداخت</h3>
+                <div class="form-group">
+                    <input type="radio" name="payment" value="card" checked> کارت اعتباری
+                    <input type="radio" name="payment" value="transfer"> انتقال بانکی
+                    <input type="radio" name="payment" value="cash"> پرداخت در محل
+                </div>
+
+                <div class="checkout-summary">
+                    <p>جمع: <strong id="checkoutTotal">۰ €</strong></p>
+                </div>
+
+                <button type="submit" class="btn-primary">تایید سفارش</button>
             </form>
         </div>
     </div>
 
-    <!-- Order Confirmation -->
-    <div class="confirmation-modal" id="confirmationModal">
-        <div class="modal-content confirmation-content">
-            <h2>✓ سفارش تایید شد</h2>
-            <div class="confirmation-details">
-                <p>شماره سفارش: <strong id="confirmationOrderId"></strong></p>
-                <p>تاریخ: <strong id="confirmationDate"></strong></p>
-                <p>مجموع: <strong id="confirmationTotal"></strong></p>
-            </div>
-            <button class="btn btn-primary" onclick="goHome()">بازگشت به صفحه اصلی</button>
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success-content">
+            <div class="success-icon">✓</div>
+            <h2>سفارش تایید شد</h2>
+            <p>شماره سفارش: <strong id="orderNumber"></strong></p>
+            <p>تاریخ: <strong id="orderDate"></strong></p>
+            <p>مبلغ: <strong id="orderAmount"></strong></p>
+            <button class="btn-primary" onclick="completeOrderClose()">بازگشت به صفحه اصلی</button>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 استایل اسپانیایی. تمام حقوق محفوظ است.</p>
-            <div class="footer-links">
-                <a href="#admin">ورود مدیریت</a>
-                <a href="#contact">تماس</a>
-                <a href="#about">درباره ما</a>
-            </div>
-        </div>
-    </footer>
 
     <!-- Scripts -->
     <script src="js/data.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
-
