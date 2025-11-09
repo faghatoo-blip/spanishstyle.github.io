@@ -1,381 +1,547 @@
-<!DOCTYPE html>
-<html lang="fa-IR" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>پنل مدیریت - استیلو اسپانیول</title>
-    
-    <!-- Dana Font CDN -->
-    <link href="https://v2.fontapi.ir/css/dana:400;500;700;900&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/rtl.css">
-    <link rel="stylesheet" href="css/admin-style.css">
-    
-    <style>
-        * {
-            font-family: 'Dana', sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            direction: rtl;
-            lang: fa-IR;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
+// Admin.js - Admin Panel Management Logic
 
-    <!-- Login Page -->
-    <div class="login-container" id="loginPage">
-        <div class="login-box">
-            <h1>پنل مدیریت</h1>
-            <h2>استیلو اسپانیول</h2>
-            
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>نام کاربری:</label>
-                    <input type="text" id="username" placeholder="نام کاربری را وارد کنید" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>رمز عبور:</label>
-                    <input type="password" id="password" placeholder="رمز عبور را وارد کنید" required>
-                </div>
-                
-                <button type="submit" class="btn-login">ورود</button>
-                
-                <div class="login-info">
-                    <p>🔑 نام کاربری: <strong>admin</strong></p>
-                    <p>🔒 رمز عبور: <strong>admin123</strong></p>
-                </div>
-            </form>
-        </div>
-    </div>
+// Initialize Admin Panel
+document.addEventListener('DOMContentLoaded', function() {
+    checkAdminLogin();
+    loadAdminDashboard();
+});
 
-    <!-- Admin Dashboard -->
-    <div class="admin-dashboard" id="adminDashboard" style="display: none;">
-        
-        <!-- Header -->
-        <header class="admin-header">
-            <div class="header-left">
-                <h1>استیلو اسپانیول - پنل مدیریت</h1>
+// Check if admin is logged in
+function checkAdminLogin() {
+    const user = localStorage.getItem('currentUser');
+    if (!user) {
+        showAdminLoginPage();
+        return;
+    }
+    
+    const currentUser = JSON.parse(user);
+    if (currentUser.role !== 'admin') {
+        localStorage.removeItem('currentUser');
+        showAdminLoginPage();
+        return;
+    }
+    
+    showAdminDashboard();
+}
+
+// Show Admin Login Page
+function showAdminLoginPage() {
+    const mainContent = document.getElementById('adminDashboard') || document.querySelector('main');
+    if (!mainContent) return;
+    
+    mainContent.innerHTML = `
+        <div class="admin-login-container">
+            <div class="login-box">
+                <h1>داشبورد مدیریت</h1>
+                <p>ورود به پنل مدیریت</p>
+                <form onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label>ایمیل:</label>
+                        <input type="email" id="adminEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>رمز عبور:</label>
+                        <input type="password" id="adminPassword" required>
+                    </div>
+                    <button type="submit" class="btn-primary">ورود</button>
+                </form>
             </div>
-            <div class="header-right">
-                <span id="adminUsername">Admin</span>
-                <button onclick="handleLogout()" class="btn-logout">خروج</button>
-            </div>
-        </header>
-
-        <div class="admin-container">
-            <!-- Sidebar Navigation -->
-            <aside class="sidebar">
-                <nav class="nav-menu">
-                    <div class="nav-item active" onclick="switchTab('dashboard')">
-                        <span>📊</span> داشبورد
-                    </div>
-                    <div class="nav-item" onclick="switchTab('products')">
-                        <span>📦</span> محصولات
-                    </div>
-                    <div class="nav-item" onclick="switchTab('customers')">
-                        <span>👥</span> مشتریان
-                    </div>
-                    <div class="nav-item" onclick="switchTab('orders')">
-                        <span>📋</span> سفارشات
-                    </div>
-                    <div class="nav-item" onclick="switchTab('reports')">
-                        <span>📈</span> گزارش‌ها
-                    </div>
-                    <div class="nav-item" onclick="switchTab('settings')">
-                        <span>⚙️</span> تنظیمات
-                    </div>
-                </nav>
-            </aside>
-
-            <!-- Main Content -->
-            <main class="admin-content">
-                
-                <!-- Dashboard Tab -->
-                <div class="tab-content active" id="dashboard">
-                    <h2>داشبورد</h2>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon">📦</div>
-                            <div class="stat-info">
-                                <span class="stat-label">محصولات</span>
-                                <span class="stat-value" id="statProducts">0</span>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">👥</div>
-                            <div class="stat-info">
-                                <span class="stat-label">مشتریان</span>
-                                <span class="stat-value" id="statCustomers">0</span>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">📋</div>
-                            <div class="stat-info">
-                                <span class="stat-label">سفارشات</span>
-                                <span class="stat-value" id="statOrders">0</span>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">💰</div>
-                            <div class="stat-info">
-                                <span class="stat-label">درآمد</span>
-                                <span class="stat-value" id="statRevenue">0</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="recent-section">
-                        <h3>سفارشات اخیر</h3>
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>شماره سفارش</th>
-                                    <th>مشتری</th>
-                                    <th>مبلغ</th>
-                                    <th>وضعیت</th>
-                                    <th>تاریخ</th>
-                                </tr>
-                            </thead>
-                            <tbody id="recentOrdersTable">
-                                <!-- Populated by JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Products Tab -->
-                <div class="tab-content" id="products">
-                    <div class="tab-header">
-                        <h2>مدیریت محصولات</h2>
-                        <button class="btn-primary" onclick="openProductForm()">+ افزودن محصول</button>
-                    </div>
-                    
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>شناسه</th>
-                                <th>نام</th>
-                                <th>دسته‌بندی</th>
-                                <th>قیمت</th>
-                                <th>موجودی</th>
-                                <th>وضعیت</th>
-                                <th>عملیات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productsTable">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Customers Tab -->
-                <div class="tab-content" id="customers">
-                    <div class="tab-header">
-                        <h2>مدیریت مشتریان</h2>
-                        <button class="btn-primary" onclick="openCustomerForm()">+ افزودن مشتری</button>
-                    </div>
-                    
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>شناسه</th>
-                                <th>نام</th>
-                                <th>ایمیل</th>
-                                <th>تلفن</th>
-                                <th>سفارشات</th>
-                                <th>مجموع خریدتان</th>
-                                <th>عملیات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="customersTable">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Orders Tab -->
-                <div class="tab-content" id="orders">
-                    <div class="tab-header">
-                        <h2>مدیریت سفارشات</h2>
-                        <div class="filter-controls">
-                            <select id="statusFilter" onchange="filterOrders()">
-                                <option value="">همه وضعیت‌ها</option>
-                                <option value="در انتظار">در انتظار</option>
-                                <option value="درحال بررسی">درحال بررسی</option>
-                                <option value="ارسال شده">ارسال شده</option>
-                                <option value="تحویل داده شده">تحویل داده شده</option>
-                                <option value="لغو شده">لغو شده</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>شماره سفارش</th>
-                                <th>مشتری</th>
-                                <th>مبلغ</th>
-                                <th>وضعیت پرداخت</th>
-                                <th>وضعیت سفارش</th>
-                                <th>تاریخ</th>
-                                <th>عملیات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ordersTable">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Reports Tab -->
-                <div class="tab-content" id="reports">
-                    <h2>گزارش‌ها و آمار</h2>
-                    
-                    <div class="reports-grid">
-                        <div class="report-card">
-                            <h3>فروش ماه‌های اخیر</h3>
-                            <div class="report-content">
-                                <p>فروش کل: <strong id="totalSales">0 €</strong></p>
-                                <p>تعداد سفارشات: <strong id="totalOrdersCount">0</strong></p>
-                                <p>میانگین سفارش: <strong id="avgOrder">0 €</strong></p>
-                            </div>
-                        </div>
-                        
-                        <div class="report-card">
-                            <h3>محصولات پرفروش</h3>
-                            <div class="report-content" id="topProductsList">
-                                <!-- Populated by JS -->
-                            </div>
-                        </div>
-                        
-                        <div class="report-card">
-                            <h3>وضعیت سفارشات</h3>
-                            <div class="report-content" id="orderStatusReport">
-                                <!-- Populated by JS -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Settings Tab -->
-                <div class="tab-content" id="settings">
-                    <h2>تنظیمات</h2>
-                    
-                    <div class="settings-form">
-                        <h3>اطلاعات فروشگاه</h3>
-                        <div class="form-group">
-                            <label>نام فروشگاه:</label>
-                            <input type="text" value="استیلو اسپانیول" id="storeName">
-                        </div>
-                        <div class="form-group">
-                            <label>ایمیل:</label>
-                            <input type="email" value="info@estilo-espanol.com" id="storeEmail">
-                        </div>
-                        <div class="form-group">
-                            <label>تلفن:</label>
-                            <input type="tel" value="+34 XXX XXX XXX" id="storePhone">
-                        </div>
-                        <div class="form-group">
-                            <label>آدرس:</label>
-                            <textarea id="storeAddress" rows="3">مادرید، اسپانیا</textarea>
-                        </div>
-                        
-                        <h3 style="margin-top: 2rem;">تنظیمات فنی</h3>
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" checked> فعال‌سازی Local Storage
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" checked> فعال‌سازی ایمیل‌های خودکار
-                            </label>
-                        </div>
-                        
-                        <button class="btn-primary" style="margin-top: 1rem;">ذخیره تنظیمات</button>
-                    </div>
-                </div>
-
-            </main>
         </div>
-    </div>
+    `;
+}
 
-    <!-- Modal for Product Form -->
-    <div class="modal" id="productModal">
+// Handle Admin Login
+function handleAdminLogin(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('adminEmail').value;
+    const password = document.getElementById('adminPassword').value;
+    
+    if (email === adminData.email && password === adminData.password) {
+        const adminUser = {
+            email: adminData.email,
+            name: adminData.name,
+            role: 'admin'
+        };
+        
+        localStorage.setItem('currentUser', JSON.stringify(adminUser));
+        appState.currentUser = adminUser;
+        appState.isLoggedIn = true;
+        appState.userRole = 'admin';
+        saveState();
+        
+        checkAdminLogin();
+        showNotification('خوش آمدید به پنل مدیریت!');
+    } else {
+        showNotification('ایمیل یا رمز عبور اشتباه است!', 'error');
+    }
+}
+
+// Load Admin Dashboard
+function loadAdminDashboard() {
+    displayAdminStats();
+    displayRecentOrders();
+    loadProducts();
+    loadCustomers();
+    loadOrders();
+}
+
+// Display Admin Stats
+function displayAdminStats() {
+    const statsContainer = document.getElementById('adminStats');
+    if (!statsContainer) return;
+    
+    const totalProducts = appState.products.length;
+    const totalCustomers = appState.customers.length;
+    const totalOrders = appState.orders.length;
+    const totalRevenue = appState.orders.reduce((sum, order) => sum + order.totalAmount, 0);
+    
+    statsContainer.innerHTML = `
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-box"></i></div>
+            <div class="stat-content">
+                <div class="stat-value">${totalProducts}</div>
+                <div class="stat-label">محصولات</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-content">
+                <div class="stat-value">${totalCustomers}</div>
+                <div class="stat-label">مشتریان</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+            <div class="stat-content">
+                <div class="stat-value">${totalOrders}</div>
+                <div class="stat-label">سفارشات</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-euro-sign"></i></div>
+            <div class="stat-content">
+                <div class="stat-value">${formatPrice(totalRevenue)}</div>
+                <div class="stat-label">درآمد</div>
+            </div>
+        </div>
+    `;
+}
+
+// Display Recent Orders
+function displayRecentOrders() {
+    const container = document.getElementById('recentOrders');
+    if (!container) return;
+    
+    const recentOrders = appState.orders.slice(-5).reverse();
+    
+    let html = `
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>شماره سفارش</th>
+                    <th>مشتری</th>
+                    <th>مبلغ</th>
+                    <th>وضعیت</th>
+                    <th>تاریخ</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    recentOrders.forEach(order => {
+        html += `
+            <tr>
+                <td>${order.id}</td>
+                <td>${order.customerName}</td>
+                <td>${formatPrice(order.totalAmount)}</td>
+                <td><span class="status ${getStatusClass(order.status)}">${order.status}</span></td>
+                <td>${order.orderDate}</td>
+            </tr>
+        `;
+    });
+    
+    html += `
+            </tbody>
+        </table>
+    `;
+    
+    container.innerHTML = html;
+}
+
+// Load and Display Products
+function loadProducts() {
+    const container = document.getElementById('productsTable');
+    if (!container) return;
+    
+    let html = `
+        <div class="section-header">
+            <h2>مدیریت محصولات</h2>
+            <button class="btn-primary" onclick="openAddProductModal()">
+                <i class="fas fa-plus"></i> افزودن محصول
+            </button>
+        </div>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>شناسه</th>
+                    <th>نام</th>
+                    <th>دسته‌بندی</th>
+                    <th>قیمت</th>
+                    <th>موجودی</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    appState.products.forEach(product => {
+        html += `
+            <tr>
+                <td>${product.id}</td>
+                <td>${product.name}</td>
+                <td>${product.category}</td>
+                <td>${formatPrice(product.price)}</td>
+                <td>${product.stock}</td>
+                <td><span class="status-badge ${product.stock > 0 ? 'in-stock' : 'out-stock'}">${product.status}</span></td>
+                <td>
+                    <button class="btn-sm" onclick="editProduct(${product.id})">ویرایش</button>
+                    <button class="btn-sm btn-danger" onclick="deleteProduct(${product.id})">حذف</button>
+                </td>
+            </tr>
+        `;
+    });
+    
+    html += `
+            </tbody>
+        </table>
+    `;
+    
+    container.innerHTML = html;
+}
+
+// Load and Display Customers
+function loadCustomers() {
+    const container = document.getElementById('customersTable');
+    if (!container) return;
+    
+    let html = `
+        <div class="section-header">
+            <h2>مدیریت مشتریان</h2>
+        </div>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>شناسه</th>
+                    <th>نام</th>
+                    <th>ایمیل</th>
+                    <th>تلفن</th>
+                    <th>تعداد سفارشات</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    appState.customers.forEach(customer => {
+        const orderCount = appState.orders.filter(o => o.customerId === customer.id).length;
+        html += `
+            <tr>
+                <td>${customer.id}</td>
+                <td>${customer.name}</td>
+                <td>${customer.email}</td>
+                <td>${customer.phone}</td>
+                <td>${orderCount}</td>
+                <td><span class="status-badge status-active">${customer.status}</span></td>
+                <td>
+                    <button class="btn-sm" onclick="viewCustomerDetail(${customer.id})">مشاهده</button>
+                </td>
+            </tr>
+        `;
+    });
+    
+    html += `
+            </tbody>
+        </table>
+    `;
+    
+    container.innerHTML = html;
+}
+
+// Load and Display Orders
+function loadOrders() {
+    const container = document.getElementById('ordersTable');
+    if (!container) return;
+    
+    let html = `
+        <div class="section-header">
+            <h2>مدیریت سفارشات</h2>
+        </div>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>شماره سفارش</th>
+                    <th>مشتری</th>
+                    <th>مبلغ</th>
+                    <th>وضعیت</th>
+                    <th>روش پرداخت</th>
+                    <th>تاریخ</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    appState.orders.forEach(order => {
+        html += `
+            <tr>
+                <td>${order.id}</td>
+                <td>${order.customerName}</td>
+                <td>${formatPrice(order.totalAmount)}</td>
+                <td><span class="status ${getStatusClass(order.status)}">${order.status}</span></td>
+                <td>${getPaymentMethodName(order.paymentMethod)}</td>
+                <td>${order.orderDate}</td>
+                <td>
+                    <button class="btn-sm" onclick="updateOrderStatus('${order.id}')">تغییر وضعیت</button>
+                </td>
+            </tr>
+        `;
+    });
+    
+    html += `
+            </tbody>
+        </table>
+    `;
+    
+    container.innerHTML = html;
+}
+
+// Open Add Product Modal
+function openAddProductModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal add-product-modal';
+    modal.innerHTML = `
         <div class="modal-content">
-            <span class="close" onclick="closeProductForm()">&times;</span>
-            <h2>افزودن/ویرایش محصول</h2>
-            <form id="productForm" onsubmit="saveProduct(event)">
-                <input type="hidden" id="productId">
+            <button class="close-btn" onclick="this.closest('.modal').remove()"><i class="fas fa-times"></i></button>
+            <h2>افزودن محصول جدید</h2>
+            <form onsubmit="handleAddProduct(event)">
                 <div class="form-group">
                     <label>نام محصول:</label>
-                    <input type="text" id="productName" required>
+                    <input type="text" id="newProductName" required>
                 </div>
                 <div class="form-group">
                     <label>توضیحات:</label>
-                    <textarea id="productDescription" rows="3" required></textarea>
+                    <textarea id="newProductDesc" required></textarea>
                 </div>
                 <div class="form-group">
                     <label>دسته‌بندی:</label>
-                    <select id="productCategory" required>
-                        <option value="سرامیک">سرامیک</option>
-                        <option value="بافت">بافت</option>
-                        <option value="تزیینی">تزیینی</option>
-                        <option value="جواهرات">جواهرات</option>
-                        <option value="دیگر">دیگر</option>
+                    <select id="newProductCategory" required>
+                        <option>سرامیک</option>
+                        <option>بافت</option>
+                        <option>تزیینی</option>
+                        <option>جواهرات</option>
+                        <option>دیگر</option>
                     </select>
                 </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>قیمت:</label>
+                        <input type="number" id="newProductPrice" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>موجودی:</label>
+                        <input type="number" id="newProductStock" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">افزودن</button>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// Handle Add Product
+function handleAddProduct(event) {
+    event.preventDefault();
+    
+    const newProduct = {
+        id: appState.products.length + 1,
+        name: document.getElementById('newProductName').value,
+        description: document.getElementById('newProductDesc').value,
+        category: document.getElementById('newProductCategory').value,
+        price: parseFloat(document.getElementById('newProductPrice').value),
+        stock: parseInt(document.getElementById('newProductStock').value),
+        imageUrl: 'images/logo.jpg',
+        status: 'فعال'
+    };
+    
+    appState.products.push(newProduct);
+    saveState();
+    
+    document.querySelector('.add-product-modal').remove();
+    loadProducts();
+    showNotification('محصول با موفقیت افزوده شد!');
+}
+
+// Edit Product
+function editProduct(productId) {
+    const product = appState.products.find(p => p.id === productId);
+    if (!product) return;
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal edit-product-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="close-btn" onclick="this.closest('.modal').remove()"><i class="fas fa-times"></i></button>
+            <h2>ویرایش محصول</h2>
+            <form onsubmit="handleEditProduct(event, ${productId})">
                 <div class="form-group">
-                    <label>قیمت:</label>
-                    <input type="number" id="productPrice" step="0.01" required>
+                    <label>نام محصول:</label>
+                    <input type="text" id="editProductName" value="${product.name}" required>
                 </div>
                 <div class="form-group">
-                    <label>موجودی:</label>
-                    <input type="number" id="productStock" required>
+                    <label>توضیحات:</label>
+                    <textarea id="editProductDesc" required>${product.description}</textarea>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="productStatus" checked> فعال
-                    </label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>قیمت:</label>
+                        <input type="number" id="editProductPrice" value="${product.price}" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>موجودی:</label>
+                        <input type="number" id="editProductStock" value="${product.stock}" required>
+                    </div>
                 </div>
                 <button type="submit" class="btn-primary">ذخیره</button>
             </form>
         </div>
-    </div>
+    `;
+    document.body.appendChild(modal);
+}
 
-    <!-- Modal for Order Details -->
-    <div class="modal" id="orderModal">
-        <div class="modal-content order-detail">
-            <span class="close" onclick="closeOrderModal()">&times;</span>
-            <h2>جزئیات سفارش</h2>
-            <div id="orderDetails">
-                <!-- Populated by JS -->
+// Handle Edit Product
+function handleEditProduct(event, productId) {
+    event.preventDefault();
+    
+    const product = appState.products.find(p => p.id === productId);
+    product.name = document.getElementById('editProductName').value;
+    product.description = document.getElementById('editProductDesc').value;
+    product.price = parseFloat(document.getElementById('editProductPrice').value);
+    product.stock = parseInt(document.getElementById('editProductStock').value);
+    
+    saveState();
+    document.querySelector('.edit-product-modal').remove();
+    loadProducts();
+    showNotification('محصول با موفقیت ویرایش شد!');
+}
+
+// Delete Product
+function deleteProduct(productId) {
+    if (confirm('آیا مطمئن هستید؟')) {
+        appState.products = appState.products.filter(p => p.id !== productId);
+        saveState();
+        loadProducts();
+        showNotification('محصول حذف شد!');
+    }
+}
+
+// Update Order Status
+function updateOrderStatus(orderId) {
+    const order = appState.orders.find(o => o.id === orderId);
+    if (!order) return;
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal update-order-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="close-btn" onclick="this.closest('.modal').remove()"><i class="fas fa-times"></i></button>
+            <h2>تغییر وضعیت سفارش</h2>
+            <form onsubmit="handleUpdateOrderStatus(event, '${orderId}')">
+                <div class="form-group">
+                    <label>وضعیت جدید:</label>
+                    <select id="newOrderStatus" required>
+                        <option value="درحال انتظار" ${order.status === 'درحال انتظار' ? 'selected' : ''}>درحال انتظار</option>
+                        <option value="تایید شده" ${order.status === 'تایید شده' ? 'selected' : ''}>تایید شده</option>
+                        <option value="درحال ارسال" ${order.status === 'درحال ارسال' ? 'selected' : ''}>درحال ارسال</option>
+                        <option value="تحویل داده شده" ${order.status === 'تحویل داده شده' ? 'selected' : ''}>تحویل داده شده</option>
+                        <option value="لغو شده" ${order.status === 'لغو شده' ? 'selected' : ''}>لغو شده</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">تحدیث</button>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// Handle Update Order Status
+function handleUpdateOrderStatus(event, orderId) {
+    event.preventDefault();
+    
+    const order = appState.orders.find(o => o.id === orderId);
+    order.status = document.getElementById('newOrderStatus').value;
+    
+    if (order.status === 'تحویل داده شده') {
+        order.deliveryDate = formatPersianDate(new Date());
+    }
+    
+    saveState();
+    document.querySelector('.update-order-modal').remove();
+    loadOrders();
+    showNotification('وضعیت سفارش با موفقیت تحدیث شد!');
+}
+
+// View Customer Detail
+function viewCustomerDetail(customerId) {
+    const customer = appState.customers.find(c => c.id === customerId);
+    if (!customer) return;
+    
+    const customerOrders = appState.orders.filter(o => o.customerId === customerId);
+    const totalSpent = customerOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal customer-detail-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="close-btn" onclick="this.closest('.modal').remove()"><i class="fas fa-times"></i></button>
+            <h2>جزئیات مشتری</h2>
+            
+            <div class="detail-section">
+                <h3>اطلاعات فردی</h3>
+                <p><strong>نام:</strong> ${customer.name}</p>
+                <p><strong>ایمیل:</strong> ${customer.email}</p>
+                <p><strong>تلفن:</strong> ${customer.phone}</p>
+                <p><strong>آدرس:</strong> ${customer.address}</p>
+            </div>
+            
+            <div class="detail-section">
+                <h3>آمار</h3>
+                <p><strong>تعداد سفارشات:</strong> ${customerOrders.length}</p>
+                <p><strong>مجموع خریدتان:</strong> ${formatPrice(totalSpent)}</p>
+                <p><strong>تاریخ ثبت‌نام:</strong> ${customer.registeredDate}</p>
             </div>
         </div>
-    </div>
+    `;
+    document.body.appendChild(modal);
+    modal.onclick = (e) => {
+        if (e.target === modal) modal.remove();
+    };
+}
 
-    <!-- Scripts -->
-    <script src="js/data.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/admin.js"></script>
-
-</body>
-</html>
+// Show Admin Dashboard
+function showAdminDashboard() {
+    const mainContent = document.querySelector('main') || document.body;
+    mainContent.innerHTML = `
+        <div class="admin-container">
+            <div id="adminStats"></div>
+            <div id="recentOrders"></div>
+            <div id="productsTable"></div>
+            <div id="customersTable"></div>
+            <div id="ordersTable"></div>
+        </div>
+    `;
+    loadAdminDashboard();
+}
