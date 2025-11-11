@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Style - فروشگاه آنلاین</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header id="header" class="header">
+            <div class="header-container">
+                <div class="logo">
+                    <h1>Spanish Style</h1>
+                </div>
+                
+                <nav class="nav">
+                    <div class="nav-links" id="navLinks">
+                        <!-- Navigation items injected by JS -->
+                    </div>
+                </nav>
+                
+                <div class="header-actions">
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="fa" title="فارسی">🇮🇷</button>
+                        <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+                        <button class="lang-btn" data-lang="es" title="Español">🇪🇸</button>
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="جستجو..." class="search-input">
+                    </div>
+                    <button class="user-icon" id="userIcon">👤</button>
+                    <button class="cart-icon" id="cartIcon">🛒 <span id="cartCount">0</span></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Special Offers Section (NEW) -->
+        <section id="specialOffers" class="special-offers">
+            <div class="special-offers-container">
+                <h2 id="offersTitle" class="offers-title">پیشنهادات ویژه</h2>
+                <div class="offers-grid" id="offersGrid">
+                    <!-- Special offers injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main id="mainContent" class="main-content">
+            <!-- Pages rendered here -->
+        </main>
+
+        <!-- Footer -->
+        <footer id="footer" class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 id="footerAbout">درباره ما</h3>
+                    <ul>
+                        <li><a href="#" id="footerStory">داستان ما</a></li>
+                        <li><a href="#" id="footerContact">تماس با ما</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 id="footerService">خدمات مشتریان</h3>
+                    <ul>
+                        <li><a href="#" id="footerFAQ">سوالات متداول</a></li>
+                        <li><a href="#" id="footerShipping">ارسال و تحویل</a></li>
+                        <li><a href="#" id="footerReturns">بازگشت کالا</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 id="footerAdmin">مدیریت</h3>
+                    <ul>
+                        <li><a href="#admin" id="adminPanelLink">پنل مدیریت</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p id="copyright">© 2025 Spanish Style. تمامی حقوق محفوظ است.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modals -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="loginTitle">ورود</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <form id="loginForm" class="form">
+                <input type="email" id="loginEmail" placeholder="ایمیل" required>
+                <input type="password" id="loginPassword" placeholder="رمز عبور" required>
+                <button type="submit" id="loginSubmit">ورود</button>
+                <p id="loginRegisterText">حساب ندارید؟ <a href="#" id="switchToRegister">ثبت نام کنید</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="registerTitle">ثبت نام</h2>
+                <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <form id="registerForm" class="form">
+                <input type="text" id="registerName" placeholder="نام و نام خانوادگی" required>
+                <input type="email" id="registerEmail" placeholder="ایمیل" required>
+                <input type="password" id="registerPassword" placeholder="رمز عبور" required>
+                <input type="tel" id="registerPhone" placeholder="شماره تماس" required>
+                <textarea id="registerAddress" placeholder="آدرس" required></textarea>
+                <button type="submit" id="registerSubmit">ثبت نام</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
