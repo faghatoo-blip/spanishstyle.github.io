@@ -1,339 +1,0 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spanish Style - فروشگاه آنلاین</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- Header -->
-    <header class="header" id="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <h1>Spanish Style</h1>
-                    <span class="logo-tagline">استایل اسپانیایی</span>
-                </div>
-                
-                <nav class="main-nav" id="mainNav">
-                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <ul class="nav-list" id="navList">
-                        <li><a href="#" data-page="home" class="nav-link active">خانه</a></li>
-                        <li><a href="#" data-page="clothes" class="nav-link">لباس</a></li>
-                        <li><a href="#" data-page="shoes" class="nav-link">کفش</a></li>
-                        <li><a href="#" data-page="perfumes" class="nav-link">عطر</a></li>
-                        <li><a href="#" data-page="promotions" class="nav-link">پیشنهادات ویژه</a></li>
-                    </ul>
-                </nav>
-                
-                <div class="header-actions">
-                    <div class="language-switcher">
-                        <button class="lang-btn active" data-lang="fa">🇮🇷</button>
-                        <button class="lang-btn" data-lang="en">🇬🇧</button>
-                        <button class="lang-btn" data-lang="es">🇪🇸</button>
-                    </div>
-                    
-                    <div class="search-container">
-                        <input type="text" id="searchInput" placeholder="جستجو..." class="search-input">
-                        <button class="search-btn">🔍</button>
-                    </div>
-                    
-                    <button class="header-icon" id="userBtn">
-                        <span>👤</span>
-                    </button>
-                    
-                    <button class="header-icon cart-icon" id="cartBtn">
-                        <span>🛒</span>
-                        <span class="cart-badge" id="cartBadge">0</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main id="mainContent">
-        <!-- Home Page -->
-        <div id="homePage" class="page active">
-            <!-- Hero Section -->
-            <section class="hero">
-                <div class="hero-content">
-                    <h2 class="hero-title">به فروشگاه اسپانیش استایل خوش آمدید</h2>
-                    <p class="hero-subtitle">بهترین برندهای اسپانیایی را تجربه کنید</p>
-                    <button class="btn btn-primary" onclick="navigateToPage('clothes')">خرید کنید</button>
-                </div>
-                <div class="hero-image">
-                    <img src="https://pplx-res.cloudinary.com/image/upload/v1762789652/pplx_project_search_images/678f611f00a5799c7f8562037f842983801c4734.png" alt="Zara Store">
-                </div>
-            </section>
-
-            <!-- Categories Section -->
-            <section class="categories-section">
-                <div class="container">
-                    <h2 class="section-title">دسته‌بندی‌ها</h2>
-                    <div class="categories-grid">
-                        <div class="category-card" onclick="navigateToPage('clothes')">
-                            <div class="category-image">
-                                <img src="https://pplx-res.cloudinary.com/image/upload/v1762789653/pplx_project_search_images/15a68f96728ad6629b56df567d694e8211d8a654.png" alt="Clothes">
-                            </div>
-                            <h3>لباس</h3>
-                            <p>مجموعه کامل پوشاک</p>
-                        </div>
-                        <div class="category-card" onclick="navigateToPage('shoes')">
-                            <div class="category-image">
-                                <img src="https://pplx-res.cloudinary.com/image/upload/v1762531017/pplx_project_search_images/c3bf3488b3605d83576c4d6ab58a00288a46.png" alt="Shoes">
-                            </div>
-                            <h3>کفش</h3>
-                            <p>انواع کفش‌های اسپانیایی</p>
-                        </div>
-                        <div class="category-card" onclick="navigateToPage('perfumes')">
-                            <div class="category-image">
-                                <img src="https://pplx-res.cloudinary.com/image/upload/v1762789653/pplx_project_search_images/d673fba3e75dbece97bf479fd054bb39ac8e21fd.png" alt="Perfumes">
-                            </div>
-                            <h3>عطر</h3>
-                            <p>عطرهای لوکس اروپایی</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Featured Products -->
-            <section class="featured-section">
-                <div class="container">
-                    <h2 class="section-title">محصولات ویژه</h2>
-                    <div id="featuredProducts" class="products-grid"></div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Products Page -->
-        <div id="productsPage" class="page">
-            <div class="container">
-                <div class="page-header">
-                    <h2 id="productsPageTitle">محصولات</h2>
-                </div>
-                <div class="products-layout">
-                    <aside class="filters-sidebar">
-                        <h3>فیلترها</h3>
-                        <div class="filter-group">
-                            <label>دسته‌بندی</label>
-                            <select id="categoryFilter" class="form-control">
-                                <option value="">همه</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label>مرتب‌سازی</label>
-                            <select id="sortFilter" class="form-control">
-                                <option value="">پیش‌فرض</option>
-                                <option value="price-low">قیمت: کم به زیاد</option>
-                                <option value="price-high">قیمت: زیاد به کم</option>
-                            </select>
-                        </div>
-                    </aside>
-                    <div class="products-content">
-                        <div id="productsGrid" class="products-grid"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Detail Page -->
-        <div id="productDetailPage" class="page">
-            <div class="container">
-                <div id="productDetail" class="product-detail"></div>
-            </div>
-        </div>
-
-        <!-- Cart Page -->
-        <div id="cartPage" class="page">
-            <div class="container">
-                <h2 class="page-title">سبد خرید</h2>
-                <div id="cartContent" class="cart-content"></div>
-            </div>
-        </div>
-
-        <!-- Checkout Page -->
-        <div id="checkoutPage" class="page">
-            <div class="container">
-                <h2 class="page-title">تکمیل خرید</h2>
-                <div id="checkoutContent"></div>
-            </div>
-        </div>
-
-        <!-- Login Page -->
-        <div id="loginPage" class="page">
-            <div class="container">
-                <div class="auth-container">
-                    <h2>ورود به حساب کاربری</h2>
-                    <form id="loginForm" class="auth-form">
-                        <div class="form-group">
-                            <label>ایمیل</label>
-                            <input type="email" id="loginEmail" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>رمز عبور</label>
-                            <input type="password" id="loginPassword" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full-width">ورود</button>
-                        <p class="auth-switch">حساب کاربری ندارید? <a href="#" onclick="navigateToPage('register')">ثبت‌نام کنید</a></p>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Register Page -->
-        <div id="registerPage" class="page">
-            <div class="container">
-                <div class="auth-container">
-                    <h2>ثبت‌نام</h2>
-                    <form id="registerForm" class="auth-form">
-                        <div class="form-group">
-                            <label>نام و نام خانوادگی</label>
-                            <input type="text" id="regName" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>ایمیل</label>
-                            <input type="email" id="regEmail" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>رمز عبور</label>
-                            <input type="password" id="regPassword" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>شماره تلفن</label>
-                            <input type="tel" id="regPhone" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>آدرس</label>
-                            <textarea id="regAddress" class="form-control" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full-width">ثبت‌نام</button>
-                        <p class="auth-switch">حساب کاربری دارید? <a href="#" onclick="navigateToPage('login')">وارد شوید</a></p>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- User Dashboard -->
-        <div id="dashboardPage" class="page">
-            <div class="container">
-                <div class="dashboard-layout">
-                    <aside class="dashboard-sidebar">
-                        <div class="user-info">
-                            <div class="user-avatar">👤</div>
-                            <h3 id="dashboardUserName"></h3>
-                        </div>
-                        <nav class="dashboard-nav">
-                            <a href="#" data-section="orders" class="dashboard-nav-link active">سفارش‌های من</a>
-                            <a href="#" data-section="profile" class="dashboard-nav-link">پروفایل</a>
-                            <a href="#" id="logoutBtn" class="dashboard-nav-link">خروج</a>
-                        </nav>
-                    </aside>
-                    <div class="dashboard-content">
-                        <div id="dashboardSection"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Login Page -->
-        <div id="adminLoginPage" class="page">
-            <div class="container">
-                <div class="auth-container">
-                    <h2>ورود مدیر</h2>
-                    <form id="adminLoginForm" class="auth-form">
-                        <div class="form-group">
-                            <label>ایمیل</label>
-                            <input type="email" id="adminEmail" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>رمز عبور</label>
-                            <input type="password" id="adminPassword" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full-width">ورود</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Dashboard -->
-        <div id="adminDashboardPage" class="page">
-            <div class="container-fluid">
-                <div class="admin-layout">
-                    <aside class="admin-sidebar">
-                        <div class="admin-logo">
-                            <h2>پنل مدیریت</h2>
-                        </div>
-                        <nav class="admin-nav">
-                            <a href="#" data-admin-section="stats" class="admin-nav-link active">آمار</a>
-                            <a href="#" data-admin-section="products" class="admin-nav-link">مدیریت محصولات</a>
-                            <a href="#" data-admin-section="orders" class="admin-nav-link">مدیریت سفارشات</a>
-                            <a href="#" data-admin-section="customers" class="admin-nav-link">مشتریان</a>
-                            <a href="#" data-admin-section="receipts" class="admin-nav-link">رسیدهای پرداخت</a>
-                            <a href="#" id="adminLogoutBtn" class="admin-nav-link">خروج</a>
-                        </nav>
-                    </aside>
-                    <div class="admin-content">
-                        <div id="adminSection"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Promotions Page -->
-        <div id="promotionsPage" class="page">
-            <div class="container">
-                <h2 class="page-title">پیشنهادات ویژه</h2>
-                <div id="promotionsGrid" class="products-grid"></div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Spanish Style</h3>
-                    <p>فروشگاه آنلاین پوشاک، کفش و عطر به سبک اسپانیایی</p>
-                </div>
-                <div class="footer-section">
-                    <h4>لینک‌های سریع</h4>
-                    <ul>
-                        <li><a href="#" onclick="navigateToPage('home')">خانه</a></li>
-                        <li><a href="#" onclick="navigateToPage('clothes')">لباس</a></li>
-                        <li><a href="#" onclick="navigateToPage('shoes')">کفش</a></li>
-                        <li><a href="#" onclick="navigateToPage('perfumes')">عطر</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>تماس با ما</h4>
-                    <p>ایمیل: info@spanishstyle.com</p>
-                    <p>تلفن: +34 123 456 789</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Spanish Style. تمامی حقوق محفوظ است.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Modals -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <div id="modalBody"></div>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
-
-    <script src="app.js"></script>
-</body>
-</html>
