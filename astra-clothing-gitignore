@@ -1,0 +1,96 @@
+# WordPress
+wp-config.php
+wp-config-local.php
+wp-content/uploads/
+wp-content/backup-*
+wp-content/cache/
+wp-content/plugins-old/
+wp-content/themes/twenty*/
+
+# Composer
+vendor/
+composer.lock
+
+# Node/npm
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# IDE & Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# OS Files
+.env
+.env.local
+.env.*.local
+
+# Build/Distribution
+dist/
+build/
+*.tar.gz
+*.zip
+!astra-clothing-child.zip
+
+# Logs
+*.log
+logs/
+
+# Backup Files
+*.bak
+*.backup
+*~
+*.swp
+
+# Database
+*.sql
+*.sqlite
+database.yml
+
+# Security
+.htaccess.backup
+debug.log
+
+# Temporary Files
+tmp/
+temp/
+cache/
+
+# Project specific
+/shared/content/uploads/
+/wp/
+
+# IDE Generated
+*.project
+*.pydevproject
+.pytest_cache/
+.coverage
+
+# Mac
+.DS_Store
+**/.DS_Store
+
+# Windows
+thumbs.db
+desktop.ini
+
+# Exclude sensitive files
+wp-config.php
+.env
+secrets.json
+
+# Allow specific files
+!.htaccess
+!.gitkeep
+!README.md
+!.github/

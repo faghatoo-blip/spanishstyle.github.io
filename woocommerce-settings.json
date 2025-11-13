@@ -1,0 +1,85 @@
+{
+  "general": {
+    "store_name": "Your Clothing Store",
+    "store_address": "123 Fashion Street",
+    "store_city": "New York",
+    "store_postcode": "10001",
+    "store_country": "US:NY",
+    "store_currency": "USD",
+    "enable_tax": true,
+    "prices_include_tax": false,
+    "tax_calc_method": "shipping",
+    "enable_coupons": true
+  },
+  "products": {
+    "weight_unit": "lbs",
+    "dimension_unit": "in",
+    "shop_page_display": "subcategories",
+    "default_product_sorting": "menu_order",
+    "catalog_columns": 4,
+    "catalog_rows": 12,
+    "default_image_size": [
+      500,
+      500
+    ],
+    "thumbnail_image_size": [
+      250,
+      250
+    ],
+    "single_image_size": [
+      1000,
+      1000
+    ],
+    "enable_reviews": true,
+    "show_verified_owner": true,
+    "reviews_require_login": false
+  },
+  "inventory": {
+    "manage_stock": true,
+    "hold_stock_minutes": 60,
+    "notify_low_stock": true,
+    "notify_out_stock": true,
+    "hide_out_of_stock": false,
+    "stock_status_threshold": 2
+  },
+  "checkout": {
+    "enable_guest_checkout": true,
+    "require_login": false,
+    "force_secure_checkout": true,
+    "checkout_coupons": true,
+    "checkout_login_reminder": true,
+    "terms_page_id": 0,
+    "privacy_page_id": 0
+  },
+  "shipping": {
+    "enable_shipping": true,
+    "shipping_method": "multiple",
+    "free_shipping_minimum": 100,
+    "free_shipping_requires_coupon": false,
+    "local_pickup_available": false,
+    "international_shipping": false
+  },
+  "payment_gateways": {
+    "stripe_enabled": true,
+    "paypal_enabled": true,
+    "bank_transfer_enabled": false,
+    "cod_enabled": false
+  },
+  "emails": {
+    "enable_email_notifications": true,
+    "from_name": "Your Clothing Store",
+    "from_email": "noreply@yourstore.com",
+    "notification_recipients": [
+      "admin@yourstore.com"
+    ],
+    "enable_order_email": true,
+    "enable_customer_email": true,
+    "enable_invoice_email": false
+  },
+  "analytics": {
+    "enable_google_analytics": true,
+    "google_analytics_id": "UA-XXXXXXXXX-X",
+    "enable_facebook_pixel": true,
+    "facebook_pixel_id": "000000000000000"
+  }
+}
